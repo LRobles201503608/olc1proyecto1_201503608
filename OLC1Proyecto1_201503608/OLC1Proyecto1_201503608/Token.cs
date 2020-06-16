@@ -8,10 +8,11 @@ namespace OLC1Proyecto1_201503608
 {
     class Token
     {
-        string lexemaval;
-        int id;
-        string tokentipo;
-        int linea, columna;
+        public string lexemaval { get; set; }
+        public int id { get; set; }
+        public string tokentipo { get; set; }
+        public int linea { get; set; }
+        public int columna { get; set; }
         public Token(string lexemaval,int id,string tokentipo,int linea, int columna)
         {
             this.lexemaval = lexemaval;
@@ -20,5 +21,6 @@ namespace OLC1Proyecto1_201503608
             this.linea = linea;
             this.columna = columna;
         }
+        
     }
 }

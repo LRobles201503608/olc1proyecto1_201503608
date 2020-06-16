@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace OLC1Proyecto1_201503608
 {
@@ -11,11 +12,13 @@ namespace OLC1Proyecto1_201503608
         private string cadena="";
         private List<Token> tokens;
         private List<Token> tokensASintactico;
-        public scanner_201503608(string cadena, List<Token>tokens, List<Token> tokensASintactico)
+        List<Errores> error;
+        public scanner_201503608(string cadena, List<Token>tokens, List<Token> tokensASintactico, List<Errores> error)
         {
             this.cadena = cadena;
             this.tokens = tokens;
             this.tokensASintactico = tokensASintactico;
+            this.error = error;
         }
     public void AnalisisLexico(string cadena)
         {
@@ -61,7 +64,7 @@ namespace OLC1Proyecto1_201503608
                             {
                                 cadconcat += caracteractual;
                                 estado = 5;
-                            }else if (caracter>47||caracter<58)
+                            }else if (caracter>47 && caracter<58)
                             {
                                 cadconcat += caracteractual;
                                 estado = 6;
@@ -111,7 +114,7 @@ namespace OLC1Proyecto1_201503608
                             }
                             else
                             {
-                                //error
+                                error.Add(new Errores("Error Lexico","Se encontro el caracter: "+caracteractual,linea,columna));
                             }
                             break;
                         }
@@ -130,7 +133,10 @@ namespace OLC1Proyecto1_201503608
                             {
                                 cadconcat += caracteractual;
                                 estado = 1;
-                            } else if (i + 1 == cadena.Length || cadena.ElementAt(i+1)==32|| cadena.ElementAt(i + 1) == 40|| cadena.ElementAt(i + 1) == 44)
+                            }
+                            
+                            if (i + 1 == cadena.Length || cadena.ElementAt(i+1)==32|| cadena.ElementAt(i + 1) == 40|| cadena.ElementAt(i + 1) == 44|| cadena.ElementAt(i + 1) == 34
+                                || cadena.ElementAt(i + 1) == 10 || cadena.ElementAt(i + 1) == 13|| cadena.ElementAt(i + 1) == 41)
                             {
                                 if (cadconcat.ToLower().Equals("tabla")|| cadconcat.ToLower().Equals("insertar")|| cadconcat.ToLower().Equals("eliminar")
                                     || cadconcat.ToLower().Equals("modificar"))
@@ -144,8 +150,17 @@ namespace OLC1Proyecto1_201503608
                                     || cadconcat.ToLower().Equals("valores")|| cadconcat.ToLower().Equals("seleccionar")|| cadconcat.ToLower().Equals("de")
                                     || cadconcat.ToLower().Equals("donde")|| cadconcat.ToLower().Equals("y")|| cadconcat.ToLower().Equals("establecer"))
                                 {
-                                    tokens.Add(new Token(cadconcat, 1, "Reservada", linea, columna));
-                                    tokensASintactico.Add(new Token(cadconcat, 1, "Reservada", linea, columna));
+                                    if (cadconcat.ToLower().Equals("entero") || cadconcat.ToLower().Equals("cadena")
+                                    || cadconcat.ToLower().Equals("flotante") || cadconcat.ToLower().Equals("fecha"))
+                                    {
+                                        tokens.Add(new Token(cadconcat, 14, "Tipo", linea, columna));
+                                        tokensASintactico.Add(new Token(cadconcat, 14, "Tipo", linea, columna));
+                                    }
+                                    else
+                                    {
+                                        tokens.Add(new Token(cadconcat, 1, "Reservada", linea, columna));
+                                        tokensASintactico.Add(new Token(cadconcat, 1, "Reservada", linea, columna));
+                                    }
                                     //agregar cambio de colores
                                 }
                                 else
@@ -154,7 +169,8 @@ namespace OLC1Proyecto1_201503608
                                     tokensASintactico.Add(new Token(cadconcat, 2, "identificador", linea, columna));
                                     //agregar cambio de colores
                                 }
-                                
+
+
                                 estado = 0;
                                 cadconcat = "";
                             }
@@ -210,14 +226,20 @@ namespace OLC1Proyecto1_201503608
                             {
                                 cadconcat += caracteractual;
                                 estado = 18;
-                            }else if (i+1==cadena.Length||cadena.ElementAt(i+1)==44|| cadena.ElementAt(i + 1) == 41|| cadena.ElementAt(i + 1) == 32)
+                            }else if (i+1==cadena.Length||cadena.ElementAt(i+1)==44|| cadena.ElementAt(i + 1) == 41|| cadena.ElementAt(i + 1) == 32
+                                || caracter==44||caracter==32||caracter==41)
                             {
+                                if (caracter == 44 || caracter == 32 || caracter == 41)
+                                {
+                                    i--;
+                                }
                                 //aceptar
                                 tokens.Add(new Token(cadconcat, 7, "numero", linea, columna));
                                 tokensASintactico.Add(new Token(cadconcat, 7, "numero", linea, columna));
                                 estado = 0;
                                 cadconcat = "";
                             }
+                            //INSERTAR EN Departamento VALORES(0,"Alta Verapaz");
                             break;
                         }
                     case 7:
@@ -317,6 +339,7 @@ namespace OLC1Proyecto1_201503608
                             else
                             {
                                 //error
+                                error.Add(new Errores("Lexico", "Se encontro el caracter: " + caracteractual, linea, columna));
                                 estado = 0;
                                 cadconcat = "";
                                 break;
@@ -344,6 +367,7 @@ namespace OLC1Proyecto1_201503608
                             else
                             {
                                 //error
+                                error.Add(new Errores("Lexico", "Se encontro el caracter: " + caracteractual, linea, columna));
                                 estado = 24;
                                 cadconcat = "";
                                 break;
@@ -360,6 +384,7 @@ namespace OLC1Proyecto1_201503608
                             else
                             {
                                 //error
+                                error.Add(new Errores("Lexico", "Se encontro el caracter: " + caracteractual, linea, columna));
                                 estado = 24;
                                 cadconcat = "";
                                 break;
@@ -407,6 +432,7 @@ namespace OLC1Proyecto1_201503608
                             else
                             {
                                 //error
+                                error.Add(new Errores("Lexico", "Se encontro el caracter: " + caracteractual, linea, columna));
                                 estado = 27;
                             }
                             break;
@@ -421,6 +447,7 @@ namespace OLC1Proyecto1_201503608
                             else
                             {
                                 //error
+                                error.Add(new Errores("Lexico", "Se encontro el caracter: " + caracteractual, linea, columna));
                                 estado = 27;
                             }
                             break;
@@ -435,6 +462,7 @@ namespace OLC1Proyecto1_201503608
                             else
                             {
                                 //error
+                                error.Add(new Errores("Lexico", "Se encontro el caracter: " + caracteractual, linea, columna));
                                 estado = 27;
                             }
                             break;
@@ -493,6 +521,7 @@ namespace OLC1Proyecto1_201503608
                             if (caracter == 32|| caracter == 10|| caracter == 13|| caracter == 41|| caracter == 44)
                             {
                                 //aceptar
+                                i--;
                                 tokens.Add(new Token(cadconcat, 8, "Cadena", linea, columna));
                                 tokensASintactico.Add(new Token(cadconcat, 8, "Cadena", linea, columna));
                                 estado = 0;
@@ -510,6 +539,7 @@ namespace OLC1Proyecto1_201503608
                             else
                             {
                                 //error
+                                error.Add(new Errores("Lexico", "Se encontro el caracter: " + caracteractual, linea, columna));
                                 estado = 29;
                             }
                             break;
@@ -542,6 +572,7 @@ namespace OLC1Proyecto1_201503608
                             else
                             {
                                 //error
+                                error.Add(new Errores("Lexico", "Se encontro el caracter: " + caracteractual, linea, columna));
                                 estado = 31;
                             }
                             break;
@@ -567,6 +598,7 @@ namespace OLC1Proyecto1_201503608
                             else
                             {
                                 //error
+                                error.Add(new Errores("Lexico", "Se encontro el caracter: " + caracteractual, linea, columna));
                                 estado = 33;
                             }
                             break;
@@ -581,6 +613,7 @@ namespace OLC1Proyecto1_201503608
                             else
                             {
                                 //error
+                                error.Add(new Errores("Lexico", "Se encontro el caracter: " + caracteractual, linea, columna));
                                 estado = 33;
                             }
                             break;
@@ -595,6 +628,7 @@ namespace OLC1Proyecto1_201503608
                             else
                             {
                                 //error
+                                error.Add(new Errores("Lexico", "Se encontro el caracter: " + caracteractual, linea, columna));
                                 estado = 34;
                             }
                             break;
@@ -609,6 +643,7 @@ namespace OLC1Proyecto1_201503608
                             else
                             {
                                 //error
+                                error.Add(new Errores("Lexico", "Se encontro el caracter: " + caracteractual, linea, columna));
                                 estado = 35;
                             }
                             break;
@@ -627,6 +662,7 @@ namespace OLC1Proyecto1_201503608
                             else
                             {
                                 //error
+                                error.Add(new Errores("Lexico", "Se encontro el caracter: " + caracteractual, linea, columna));
                                 estado = 36;
                             }
                             break;
@@ -636,6 +672,7 @@ namespace OLC1Proyecto1_201503608
                             if (caracter == 32 || caracter == 10 || caracter == 13 || caracter == 41 || caracter == 44)
                             {
                                 //aceptar
+                                i--;
                                 tokens.Add(new Token(cadconcat, 9, "fecha", linea, columna));
                                 tokensASintactico.Add(new Token(cadconcat, 9, "fecha", linea, columna));
                                 estado = 0;
@@ -655,6 +692,7 @@ namespace OLC1Proyecto1_201503608
                         }
                 }
             }
+            MessageBox.Show("hola");
         }
     }
 }

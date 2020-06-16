@@ -1,0 +1,10 @@
+C:\Users\jlrob\OneDrive\Documentos\Cosas U\compi\Proyecto 1\olc1proyecto1_201503608\OLC1Proyecto1_201503608\OLC1Proyecto1_201503608\bin\Debug\OLC1Proyecto1_201503608.exe.config
+C:\Users\jlrob\OneDrive\Documentos\Cosas U\compi\Proyecto 1\olc1proyecto1_201503608\OLC1Proyecto1_201503608\OLC1Proyecto1_201503608\bin\Debug\OLC1Proyecto1_201503608.exe
+C:\Users\jlrob\OneDrive\Documentos\Cosas U\compi\Proyecto 1\olc1proyecto1_201503608\OLC1Proyecto1_201503608\OLC1Proyecto1_201503608\bin\Debug\OLC1Proyecto1_201503608.pdb
+C:\Users\jlrob\OneDrive\Documentos\Cosas U\compi\Proyecto 1\olc1proyecto1_201503608\OLC1Proyecto1_201503608\OLC1Proyecto1_201503608\obj\Debug\OLC1Proyecto1_201503608.csprojAssemblyReference.cache
+C:\Users\jlrob\OneDrive\Documentos\Cosas U\compi\Proyecto 1\olc1proyecto1_201503608\OLC1Proyecto1_201503608\OLC1Proyecto1_201503608\obj\Debug\OLC1Proyecto1_201503608.Form1.resources
+C:\Users\jlrob\OneDrive\Documentos\Cosas U\compi\Proyecto 1\olc1proyecto1_201503608\OLC1Proyecto1_201503608\OLC1Proyecto1_201503608\obj\Debug\OLC1Proyecto1_201503608.Properties.Resources.resources
+C:\Users\jlrob\OneDrive\Documentos\Cosas U\compi\Proyecto 1\olc1proyecto1_201503608\OLC1Proyecto1_201503608\OLC1Proyecto1_201503608\obj\Debug\OLC1Proyecto1_201503608.csproj.GenerateResource.cache
+C:\Users\jlrob\OneDrive\Documentos\Cosas U\compi\Proyecto 1\olc1proyecto1_201503608\OLC1Proyecto1_201503608\OLC1Proyecto1_201503608\obj\Debug\OLC1Proyecto1_201503608.csproj.CoreCompileInputs.cache
+C:\Users\jlrob\OneDrive\Documentos\Cosas U\compi\Proyecto 1\olc1proyecto1_201503608\OLC1Proyecto1_201503608\OLC1Proyecto1_201503608\obj\Debug\OLC1Proyecto1_201503608.exe
+C:\Users\jlrob\OneDrive\Documentos\Cosas U\compi\Proyecto 1\olc1proyecto1_201503608\OLC1Proyecto1_201503608\OLC1Proyecto1_201503608\obj\Debug\OLC1Proyecto1_201503608.pdb
