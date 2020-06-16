@@ -74,7 +74,7 @@
             this.guardarComoToolStripMenuItem,
             this.salirToolStripMenuItem});
             this.archivoToolStripMenuItem.Name = "archivoToolStripMenuItem";
-            this.archivoToolStripMenuItem.Size = new System.Drawing.Size(73, 26);
+            this.archivoToolStripMenuItem.Size = new System.Drawing.Size(73, 24);
             this.archivoToolStripMenuItem.Text = "Archivo";
             // 
             // nuevoToolStripMenuItem
@@ -156,6 +156,7 @@
             this.mostrarArbolDeDerivacionToolStripMenuItem.Name = "mostrarArbolDeDerivacionToolStripMenuItem";
             this.mostrarArbolDeDerivacionToolStripMenuItem.Size = new System.Drawing.Size(276, 26);
             this.mostrarArbolDeDerivacionToolStripMenuItem.Text = "Mostrar arbol de derivacion";
+            this.mostrarArbolDeDerivacionToolStripMenuItem.Click += new System.EventHandler(this.MostrarArbolDeDerivacionToolStripMenuItem_Click);
             // 
             // mostrarErroresToolStripMenuItem
             // 
@@ -171,7 +172,7 @@
             this.mostrarManualTecnicoToolStripMenuItem,
             this.acercaDeToolStripMenuItem});
             this.ayudaToolStripMenuItem.Name = "ayudaToolStripMenuItem";
-            this.ayudaToolStripMenuItem.Size = new System.Drawing.Size(65, 26);
+            this.ayudaToolStripMenuItem.Size = new System.Drawing.Size(65, 24);
             this.ayudaToolStripMenuItem.Text = "Ayuda";
             // 
             // mostrarManualUsuarioToolStripMenuItem

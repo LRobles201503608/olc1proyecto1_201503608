@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace OLC1Proyecto1_201503608
 {
@@ -10,6 +11,14 @@ namespace OLC1Proyecto1_201503608
     {
         List<Token> tokensASintactico = new List<Token>();
         List<Errores> error= new List<Errores>();
+        NodoArbol padre = null;
+
+        public NodoArbol getPadre()
+        {
+            return padre;
+        }
+        int count = 0;
+
         int tokenactual = 0;
         int i = 0;
         int reservada = 1;
@@ -69,246 +78,494 @@ namespace OLC1Proyecto1_201503608
 
         public void INICIO()
         {
-            INSTRUCCION();
+            NodoArbol nd = new NodoArbol("INICIO","",count);
+            count++;
+            NodoArbol a=INSTRUCCION();
+            nd.AddHijos(a);
+            padre = nd;
+            MessageBox.Show("ANALISIS SINTACTICO COMPLETADO");
         }
-        public void INSTRUCCION()
+        public NodoArbol INSTRUCCION()
         {
-                OPERACION();   
+            NodoArbol a = new NodoArbol("INSTRUCCION","",count);
+            count++;
+            NodoArbol c = OPERACION();
+            a.AddHijos(c);
+            return a;
         }
-        public void OPERACION()
+        public NodoArbol OPERACION()
         {
             if (i>=this.tokensASintactico.Count)
             {
-                
+                return null;
             }
             else
             {
                 if (this.tokensASintactico.ElementAt(i).lexemaval.ToLower().Equals("crear"))
                 {
+                    NodoArbol a = new NodoArbol("OPERACION", "", count);
+                    count++;
+                    NodoArbol crear = new NodoArbol("crear", this.tokensASintactico.ElementAt(i).lexemaval.ToLower(),count);
+                    count++;
                     Match(reservada);
+                    NodoArbol tabla = new NodoArbol("tabla", this.tokensASintactico.ElementAt(i).lexemaval.ToLower(), count);
+                    count++;
                     Match(reservada);
+                    NodoArbol id = new NodoArbol("id", this.tokensASintactico.ElementAt(i).lexemaval.ToLower(), count);
+                    count++;
                     Match(identificador);
                     Match(parentesisa);
-                    CAMPOS_CREACION();
+                    NodoArbol c= CAMPOS_CREACION();
                     Match(parentesisc);
                     Match(pycoma);
-                    OPERACION();
+                    NodoArbol d =OPERACION();
+
+                    a.AddHijos(crear);
+                    a.AddHijos(tabla);
+                    a.AddHijos(id);
+                    a.AddHijos(c);
+                    a.AddHijos(d);
+                    return a;
                 }
                 else if (this.tokensASintactico.ElementAt(i).lexemaval.ToLower().Equals("insertar"))
                 {
+                    NodoArbol a = new NodoArbol("OPERACION", "", count);
+                    count++;
+                    NodoArbol insertar = new NodoArbol("insertar", this.tokensASintactico.ElementAt(i).lexemaval.ToLower(), count);
+                    count++;
                     Match(reservada);
+                    NodoArbol en = new NodoArbol("en", this.tokensASintactico.ElementAt(i).lexemaval.ToLower(), count);
+                    count++;
                     Match(reservada);
+                    NodoArbol id = new NodoArbol("id", this.tokensASintactico.ElementAt(i).lexemaval.ToLower(), count);
+                    count++;
                     Match(identificador);
+                    NodoArbol valores = new NodoArbol("valores", this.tokensASintactico.ElementAt(i).lexemaval.ToLower(), count);
+                    count++;
                     Match(reservada);
                     Match(parentesisa);
-                    PARAMETROS_INSERTAR();
+                    NodoArbol c=PARAMETROS_INSERTAR();
                     Match(parentesisc);
                     Match(pycoma);
-                    OPERACION();
+                    NodoArbol d=OPERACION();
+                    a.AddHijos(insertar);
+                    a.AddHijos(en);
+                    a.AddHijos(id);
+                    a.AddHijos(valores);
+                    a.AddHijos(c);
+                    a.AddHijos(d);
+                    return a;
                 }
                 else if (this.tokensASintactico.ElementAt(i).lexemaval.ToLower().Equals("seleccionar"))
                 {
+                    NodoArbol a = new NodoArbol("OPERACION", "", count);
+                    count++;
+                    NodoArbol seleccionar = new NodoArbol("seleccionar", this.tokensASintactico.ElementAt(i).lexemaval.ToLower(), count);
+                    count++;
                     Match(reservada);
-                    PARAMETROS_SELECCION();
+                    NodoArbol c = PARAMETROS_SELECCION();
+                    NodoArbol de = new NodoArbol("de", this.tokensASintactico.ElementAt(i).lexemaval.ToLower(), count);
+                    count++;
                     Match(reservada);
-                    LISTA_TABLAS();
-                    Match(reservada);
-                    CONDICIONES();
+                    NodoArbol d = LISTA_TABLAS();
+                    NodoArbol e=CONDICION_SELECCION();
                     Match(pycoma);
-                    OPERACION();
+                    NodoArbol f=OPERACION();
+                    a.AddHijos(seleccionar);
+                    a.AddHijos(c);
+                    a.AddHijos(de);
+                    a.AddHijos(d);
+                    a.AddHijos(e);
+                    a.AddHijos(f);
+                    return a;
                 }
                 else if (this.tokensASintactico.ElementAt(i).lexemaval.ToLower().Equals("eliminar"))
                 {
+                    NodoArbol a = new NodoArbol("OPERACION", "", count);
+                    count++;
+                    NodoArbol eliminar = new NodoArbol("eliminar", this.tokensASintactico.ElementAt(i).lexemaval.ToLower(), count);
+                    count++;
                     Match(reservada);
+                    NodoArbol de = new NodoArbol("de", this.tokensASintactico.ElementAt(i).lexemaval.ToLower(), count);
+                    count++;
                     Match(reservada);
+                    NodoArbol id = new NodoArbol("id", this.tokensASintactico.ElementAt(i).lexemaval.ToLower(), count);
+                    count++;
                     Match(identificador);
-                    CONDICIONES();
+                    NodoArbol c=CONDICIONES();
                     Match(pycoma);
-                    OPERACION();
+                    NodoArbol d=OPERACION();
+                    a.AddHijos(eliminar);
+                    a.AddHijos(de);
+                    a.AddHijos(id);
+                    a.AddHijos(c);
+                    a.AddHijos(d);
+                    return a;
                 }
                 else if (this.tokensASintactico.ElementAt(i).lexemaval.ToLower().Equals("actualizar"))
                 {
+                    NodoArbol a = new NodoArbol("OPERACION", "", count);
+                    count++;
+                    NodoArbol actualizar = new NodoArbol("actualizar", this.tokensASintactico.ElementAt(i).lexemaval.ToLower(), count);
+                    count++;
                     Match(reservada);
+                    NodoArbol id = new NodoArbol("id", this.tokensASintactico.ElementAt(i).lexemaval.ToLower(), count);
+                    count++;
                     Match(identificador);
+                    NodoArbol establecer = new NodoArbol("establecer", this.tokensASintactico.ElementAt(i).lexemaval.ToLower(), count);
+                    count++;
                     Match(reservada);
                     Match(parentesisa);
-                    PARAMETROS_ESTABLECER();
+                    NodoArbol c=PARAMETROS_ESTABLECER();
                     Match(parentesisc);
-                    Match(reservada);
-                    CONDICIONES();
+                    NodoArbol d = CONDICION_SELECCION();
                     Match(pycoma);
-                    OPERACION();
+                    NodoArbol e = OPERACION();
+                    a.AddHijos(actualizar);
+                    a.AddHijos(id);
+                    a.AddHijos(establecer);
+                    a.AddHijos(c);
+                    a.AddHijos(d);
+                    a.AddHijos(e);
+                    return a;
                 }
                 else
                 {
-
+                    return null;
                 }
             }
-            
         }
-        public void CAMPOS_CREACION()
+        public NodoArbol CAMPOS_CREACION()
         {
             if (this.tokensASintactico.ElementAt(i).id==identificador)
             {
+                NodoArbol a = new NodoArbol("CAMPOS_CREACION", "", count);
+                count++;
+                NodoArbol id = new NodoArbol("id", this.tokensASintactico.ElementAt(i).lexemaval.ToLower(), count);
+                count++;
                 Match(identificador);
-                TIPOS();
-                CAMPOS_CREACION();
-            }else if (this.tokensASintactico.ElementAt(i).id==coma)
+                NodoArbol c = TIPOS();
+                NodoArbol d = CAMPOS_CREACION();
+                a.AddHijos(id);
+                a.AddHijos(c);
+                a.AddHijos(d);
+                return a;
+            }
+            else if (this.tokensASintactico.ElementAt(i).id==coma)
             {
+                NodoArbol a = new NodoArbol("CAMPOS_CREACION", "", count);
+                count++;
                 Match(coma);
+                NodoArbol id = new NodoArbol("id", this.tokensASintactico.ElementAt(i).lexemaval.ToLower(), count);
+                count++;
                 Match(identificador);
-                TIPOS();
-                CAMPOS_CREACION();
+                NodoArbol c = TIPOS();
+                NodoArbol d = CAMPOS_CREACION();
+                a.AddHijos(id);
+                a.AddHijos(c);
+                a.AddHijos(d);
+                return a;
             }
             else
             {
-
+                return null;
             }
         }
-        public void TIPOS()
+        public NodoArbol TIPOS()
         {
             if (this.tokensASintactico.ElementAt(i).lexemaval.ToLower().Equals("cadena"))
             {
+                NodoArbol tipos = new NodoArbol("tipo", this.tokensASintactico.ElementAt(i).lexemaval.ToLower().Replace("\"",""), count);
+                count++;
                 Match(tipo);
+                return tipos;
             }else if(this.tokensASintactico.ElementAt(i).lexemaval.ToLower().Equals("flotante"))
             {
+                NodoArbol tipos = new NodoArbol("tipo", this.tokensASintactico.ElementAt(i).lexemaval.ToLower(), count);
+                count++;
                 Match(tipo);
-            }else if (this.tokensASintactico.ElementAt(i).lexemaval.ToLower().Equals("entero"))
-            {
-                Match(tipo);
-            }else if (this.tokensASintactico.ElementAt(i).lexemaval.ToLower().Equals("fecha"))
-            {
-                Match(tipo);
+                return tipos;
             }
+            else if (this.tokensASintactico.ElementAt(i).lexemaval.ToLower().Equals("entero"))
+            {
+                NodoArbol tipos = new NodoArbol("tipo", this.tokensASintactico.ElementAt(i).lexemaval.ToLower(), count);
+                count++;
+                Match(tipo);
+                return tipos;
+            }
+            else if (this.tokensASintactico.ElementAt(i).lexemaval.ToLower().Equals("fecha"))
+            {
+                NodoArbol tipos = new NodoArbol("tipo", this.tokensASintactico.ElementAt(i).lexemaval.ToLower(), count);
+                count++;
+                Match(tipo);
+                return tipos;
+            }
+            return null;
         }
-        public void PARAMETROS_INSERTAR()
+        public NodoArbol PARAMETROS_INSERTAR()
         {
             if (this.tokensASintactico.ElementAt(i).id==numero|| this.tokensASintactico.ElementAt(i).id==fecha|| this.tokensASintactico.ElementAt(i).id==cadena)
             {
-                EXPRESION();
-                PARAMETROS_INSERTAR();
-            }else if (this.tokensASintactico.ElementAt(i).id==coma)
+                NodoArbol a = new NodoArbol("PARAMETROS_INSERTAR", "", count);
+                count++;
+                NodoArbol c = EXPRESION();
+                NodoArbol d = PARAMETROS_INSERTAR();
+                a.AddHijos(c);
+                a.AddHijos(d);
+                return a;
+            }
+            else if (this.tokensASintactico.ElementAt(i).id==coma)
             {
+                NodoArbol a = new NodoArbol("PARAMETROS_INSERTAR", "", count);
+                count++;
                 Match(coma);
-                EXPRESION();
-                PARAMETROS_INSERTAR();
+                NodoArbol c = EXPRESION();
+                NodoArbol d = PARAMETROS_INSERTAR();
+                a.AddHijos(c);
+                a.AddHijos(d);
+                return a;
             }
             else
             {
-
+                return null;
             }
+            
         }
-        public void EXPRESION()
+        public NodoArbol EXPRESION()
         {
             if (this.tokensASintactico.ElementAt(i).id == numero )
             {
+                NodoArbol value = new NodoArbol("value", this.tokensASintactico.ElementAt(i).lexemaval.ToLower(), count);
+                count++;
                 Match(numero);
+                return value;
             }else if (this.tokensASintactico.ElementAt(i).id == fecha )
             {
+                NodoArbol value = new NodoArbol("value", this.tokensASintactico.ElementAt(i).lexemaval.ToLower(), count);
+                count++;
                 Match(fecha);
+                return value;
             }else if (this.tokensASintactico.ElementAt(i).id == cadena)
             {
+                NodoArbol value = new NodoArbol("value", this.tokensASintactico.ElementAt(i).lexemaval.ToLower().Replace("\"",""), count);
+                count++;
                 Match(cadena);
+                return value;
             }
+            return null;
         }
-        public void PARAMETROS_SELECCION()
+        public NodoArbol PARAMETROS_SELECCION()
         {
+            
+
             if (this.tokensASintactico.ElementAt(i).id == identificador)
             {
+                NodoArbol a = new NodoArbol("PARAMETROS_SELECCION", "", count);
+                count++;
+                NodoArbol id = new NodoArbol("id", this.tokensASintactico.ElementAt(i).lexemaval.ToLower(), count);
+                count++;
                 Match(identificador);
-                PARAMETROS_SELECCION2();
-                PARAMETROS_SELECCION();
-            }else if (this.tokensASintactico.ElementAt(i).id == coma)
-            {
-                Match(coma);
-                Match(identificador);
-                PARAMETROS_SELECCION2();
-                PARAMETROS_SELECCION();
-            }else if (this.tokensASintactico.ElementAt(i).id == asterisco)
-            {
-                Match(asterisco);
-            }
-            else
-            {
-
-            }
-        }
-        public void PARAMETROS_SELECCION2()
-        {
-            if (this.tokensASintactico.ElementAt(i).id == punto)
-            {
-                Match(punto);
-                Match(identificador);
-            }
-            else
-            {
-
-            }
-        }
-        public void LISTA_TABLAS()
-        {
-            if (this.tokensASintactico.ElementAt(i).id == identificador)
-            {
-                Match(identificador);
-                LISTA_TABLAS();
+                NodoArbol c = PARAMETROS_SELECCION2();
+                NodoArbol d = PARAMETROS_SELECCION();
+                a.AddHijos(id);
+                a.AddHijos(c);
+                a.AddHijos(d);
+                return a;
             }
             else if (this.tokensASintactico.ElementAt(i).id == coma)
             {
+                NodoArbol a = new NodoArbol("PARAMETROS_SELECCION", "", count);
+                count++;
                 Match(coma);
+                NodoArbol id = new NodoArbol("id", this.tokensASintactico.ElementAt(i).lexemaval.ToLower(), count);
+                count++;
                 Match(identificador);
-                LISTA_TABLAS();
+                NodoArbol c = PARAMETROS_SELECCION2();
+                NodoArbol d = PARAMETROS_SELECCION();
+                a.AddHijos(id);
+                a.AddHijos(c);
+                a.AddHijos(d);
+                return a;
+            }
+            else if (this.tokensASintactico.ElementAt(i).id == asterisco)
+            {
+                NodoArbol a = new NodoArbol("PARAMETROS_SELECCION", "", count);
+                count++;
+                NodoArbol asteriscos = new NodoArbol("asterisco", this.tokensASintactico.ElementAt(i).lexemaval.ToLower(), count);
+                count++;
+                Match(asterisco);
+                a.AddHijos(asteriscos);
+                return a;
             }
             else
             {
-
+                return null;
             }
         }
-        public void CONDICIONES()
+        public NodoArbol PARAMETROS_SELECCION2()
+        {   
+            if (this.tokensASintactico.ElementAt(i).id == punto)
+            {
+                NodoArbol a = new NodoArbol("PARAMETROS_SELECCION2", "", count);
+                count++;
+                Match(punto);
+                NodoArbol id = new NodoArbol("id", this.tokensASintactico.ElementAt(i).lexemaval.ToLower(), count);
+                count++;
+                Match(identificador);
+                a.AddHijos(id);
+                return a;
+            }
+            else
+            {
+                return null;
+            }
+        }
+        public NodoArbol LISTA_TABLAS()
         {
             if (this.tokensASintactico.ElementAt(i).id == identificador)
             {
+                NodoArbol a = new NodoArbol("LISTA_TABLAS", "", count);
+                count++;
+                NodoArbol id = new NodoArbol("id", this.tokensASintactico.ElementAt(i).lexemaval.ToLower(), count);
+                count++;
                 Match(identificador);
-                CONDICIONALES();
-                EXPRESION();
-                CONDICIONES();
+                NodoArbol c = LISTA_TABLAS();
+                a.AddHijos(id);
+                a.AddHijos(c);
+                return a;
+            }
+            else if (this.tokensASintactico.ElementAt(i).id == coma)
+            {
+                NodoArbol a = new NodoArbol("LISTA_TABLAS", "", count);
+                count++;
+                Match(coma);
+                NodoArbol id = new NodoArbol("id", this.tokensASintactico.ElementAt(i).lexemaval.ToLower(), count);
+                count++;
+                Match(identificador);
+                NodoArbol c = LISTA_TABLAS();
+                a.AddHijos(id);
+                a.AddHijos(c);
+                return a;
+            }
+            else
+            {
+                return null;
+            }
+        }
+        public NodoArbol CONDICION_SELECCION()
+        {
+            if (this.tokensASintactico.ElementAt(i).id == reservada)
+            {
+                NodoArbol a = new NodoArbol("CONDICION_SELECCION", "", count);
+                count++;
+                NodoArbol donde = new NodoArbol("donde", this.tokensASintactico.ElementAt(i).lexemaval.ToLower(), count);
+                count++;
+                Match(reservada);
+                NodoArbol c= CONDICIONES();
+                a.AddHijos(donde);
+                a.AddHijos(c);
+                return a;
+            }
+            else
+            {
+                return null;
+            }
+        }
+        public NodoArbol CONDICIONES()
+        {
+            if (this.tokensASintactico.ElementAt(i).id == identificador)
+            {
+                NodoArbol a = new NodoArbol("CONDICIONES", "", count);
+                count++;
+                NodoArbol id = new NodoArbol("id", this.tokensASintactico.ElementAt(i).lexemaval.ToLower(), count);
+                count++;
+                Match(identificador);
+                NodoArbol c = CONDICIONALES();
+                NodoArbol d = EXPRESION();
+                NodoArbol e = CONDICIONES();
+                a.AddHijos(id);
+                a.AddHijos(c);
+                a.AddHijos(d);
+                a.AddHijos(e);
+                return a;
             }
             else if (this.tokensASintactico.ElementAt(i).id == reservada)
             {
+                NodoArbol a = new NodoArbol("CONDICIONES", "", count);
+                count++;
+                NodoArbol reservadas = new NodoArbol("reservada", this.tokensASintactico.ElementAt(i).lexemaval.ToLower(), count);
+                count++;
                 Match(reservada);
+                NodoArbol id = new NodoArbol("id", this.tokensASintactico.ElementAt(i).lexemaval.ToLower(), count);
+                count++;
                 Match(identificador);
-                CONDICIONALES();
-                EXPRESION();
-                CONDICIONES();
+                NodoArbol c = CONDICIONALES();
+                NodoArbol d = EXPRESION();
+                NodoArbol e = CONDICIONES();
+                a.AddHijos(reservadas);
+                a.AddHijos(id);
+                a.AddHijos(c);
+                a.AddHijos(d);
+                a.AddHijos(e);
+                return a;
             }
             else
             {
-
+                return null;
             }
         }
-        public void CONDICIONALES()
+        public NodoArbol CONDICIONALES()
         {
+            NodoArbol a = new NodoArbol("CONDICIONAL", "", count);
+            count++;
+            NodoArbol comparador1 = new NodoArbol("comparador", this.tokensASintactico.ElementAt(i).lexemaval.ToLower(), count);
+            count++;
             Match(comparador);
+            a.AddHijos(comparador1);
+            return a;
         }
-        public void PARAMETROS_ESTABLECER()
+        public NodoArbol PARAMETROS_ESTABLECER()
         {
             if (this.tokensASintactico.ElementAt(i).id == identificador)
             {
+                NodoArbol a = new NodoArbol("PARAMETROS_ESTABLECER", "", count);
+                count++;
+                NodoArbol id = new NodoArbol("id", this.tokensASintactico.ElementAt(i).lexemaval.ToLower(), count);
+                count++;
                 Match(identificador);
+                NodoArbol comparador1 = new NodoArbol("comparador", this.tokensASintactico.ElementAt(i).lexemaval.ToLower(), count);
+                count++;
                 Match(comparador);
-                EXPRESION();
-                PARAMETROS_ESTABLECER();
+                NodoArbol c = EXPRESION();
+                NodoArbol d = PARAMETROS_ESTABLECER();
+                a.AddHijos(id);
+                a.AddHijos(comparador1);
+                a.AddHijos(c);
+                a.AddHijos(d);
+                return a;
             }
             else if (this.tokensASintactico.ElementAt(i).id == coma)
             {
+                NodoArbol a = new NodoArbol("PARAMETROS_ESTABLECER", "", count);
+                count++;
                 Match(coma);
+                NodoArbol id = new NodoArbol("id", this.tokensASintactico.ElementAt(i).lexemaval.ToLower(), count);
+                count++;
                 Match(identificador);
+                NodoArbol comparador1 = new NodoArbol("comparador", this.tokensASintactico.ElementAt(i).lexemaval.ToLower(), count);
+                count++;
                 Match(comparador);
-                EXPRESION();
-                PARAMETROS_ESTABLECER();
+                NodoArbol c = EXPRESION();
+                NodoArbol d = PARAMETROS_ESTABLECER();
+                a.AddHijos(id);
+                a.AddHijos(comparador1);
+                a.AddHijos(c);
+                a.AddHijos(d);
+                return a;
             }
             else
             {
-
+                return null;
             }
         }
     }

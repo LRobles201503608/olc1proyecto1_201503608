@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -252,6 +254,64 @@ namespace OLC1Proyecto1_201503608
         private void VerTokensToolStripMenuItem_Click(object sender, EventArgs e)
         {
             GenerarHTMLTokens();
+        }
+
+        private void MostrarArbolDeDerivacionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NodoArbol arbol =parser.getPadre();
+            Graficar(recorrerarbol(arbol),"arbol");
+
+        }
+
+        private void Graficar(String cadena, String cad)
+        {
+            
+            try
+            {
+                FileStream stream = new FileStream("Arbol.dot", FileMode.Create, FileAccess.Write);
+                StreamWriter writer = new StreamWriter(stream);
+                writer.WriteLine(
+                    " digraph G {\n"
+                    + "     rankdir=TB; "
+                    + "" + " node[ shape=oval,  style=filled ,fillcolor=red, fontcolor=black, color=black];  \n"
+                    + "edge[color=black] \n"
+                    );
+                writer.WriteLine(cadena);
+                writer.WriteLine("\n}");
+                writer.Close();
+                //Ejecuta el codigo
+                var command = string.Format("dot -Tsvg " + "Arbol.dot -o" + "Arbol.svg");
+                var procStartInfo = new System.Diagnostics.ProcessStartInfo("cmd", "/C " + command);
+                var proc = new System.Diagnostics.Process();
+                proc.StartInfo = procStartInfo;
+                proc.Start();
+                proc.WaitForExit();
+                Thread.Sleep(2000);
+                Process.Start(@"" + "Arbol.svg");
+            }
+            catch (Exception x)
+            {
+                Console.WriteLine("Error inesperado cuando se intento graficar: " + x.ToString(), "error");
+            }
+        }
+
+            public static String recorrerarbol(NodoArbol raiz)
+        {
+            String cuerpo = "";
+            foreach (NodoArbol hijos in raiz.getHijos())
+            {
+                if (hijos!=null)
+                {
+                    if (hijos.getValor() != null)
+                    {
+                        cuerpo += "\"" + raiz.getIdNod() + "\"" + " [label=\"" + raiz.getEtiqueta() + "\"]";
+                        cuerpo += "\"" + hijos.getIdNod() + "\"" + " [label=\"" + hijos.getValor() + "\"]";
+                        cuerpo += "\"" + raiz.getIdNod() + "\" -> " + "\"" + hijos.getIdNod() + "\"";
+                        cuerpo += recorrerarbol(hijos);
+                    }
+                }
+            }
+            return cuerpo;
         }
     }
 }

@@ -692,7 +692,7 @@ namespace OLC1Proyecto1_201503608
                         }
                 }
             }
-            MessageBox.Show("hola");
+            MessageBox.Show("ANALISIS LEXICO TERMINADO");
         }
     }
 }
