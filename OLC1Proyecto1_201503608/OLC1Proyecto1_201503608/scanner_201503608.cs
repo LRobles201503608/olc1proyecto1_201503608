@@ -148,7 +148,8 @@ namespace OLC1Proyecto1_201503608
                                 else if (cadconcat.ToLower().Equals("crear")|| cadconcat.ToLower().Equals("entero")|| cadconcat.ToLower().Equals("cadena")
                                     || cadconcat.ToLower().Equals("flotante")|| cadconcat.ToLower().Equals("fecha")|| cadconcat.ToLower().Equals("en")
                                     || cadconcat.ToLower().Equals("valores")|| cadconcat.ToLower().Equals("seleccionar")|| cadconcat.ToLower().Equals("de")
-                                    || cadconcat.ToLower().Equals("donde")|| cadconcat.ToLower().Equals("y")|| cadconcat.ToLower().Equals("establecer"))
+                                    || cadconcat.ToLower().Equals("donde")|| cadconcat.ToLower().Equals("y")|| cadconcat.ToLower().Equals("establecer")
+                                    || cadconcat.ToLower().Equals("como") || cadconcat.ToLower().Equals("o"))
                                 {
                                     if (cadconcat.ToLower().Equals("entero") || cadconcat.ToLower().Equals("cadena")
                                     || cadconcat.ToLower().Equals("flotante") || cadconcat.ToLower().Equals("fecha"))

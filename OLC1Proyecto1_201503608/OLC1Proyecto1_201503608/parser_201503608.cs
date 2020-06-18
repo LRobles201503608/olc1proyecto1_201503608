@@ -105,6 +105,8 @@ namespace OLC1Proyecto1_201503608
                 {
                     NodoArbol a = new NodoArbol("OPERACION", "", count);
                     count++;
+                    NodoArbol creacion = new NodoArbol("CREACION", "", count);
+                    count++;
                     NodoArbol crear = new NodoArbol("crear", this.tokensASintactico.ElementAt(i).lexemaval.ToLower(),count);
                     count++;
                     Match(reservada);
@@ -120,16 +122,19 @@ namespace OLC1Proyecto1_201503608
                     Match(pycoma);
                     NodoArbol d =OPERACION();
 
-                    a.AddHijos(crear);
-                    a.AddHijos(tabla);
-                    a.AddHijos(id);
-                    a.AddHijos(c);
+                    a.AddHijos(creacion);
+                    creacion.AddHijos(crear);
+                    creacion.AddHijos(tabla);
+                    creacion.AddHijos(id);
+                    creacion.AddHijos(c);
                     a.AddHijos(d);
                     return a;
                 }
                 else if (this.tokensASintactico.ElementAt(i).lexemaval.ToLower().Equals("insertar"))
                 {
                     NodoArbol a = new NodoArbol("OPERACION", "", count);
+                    count++;
+                    NodoArbol insercion = new NodoArbol("INSERCION", "", count);
                     count++;
                     NodoArbol insertar = new NodoArbol("insertar", this.tokensASintactico.ElementAt(i).lexemaval.ToLower(), count);
                     count++;
@@ -148,17 +153,20 @@ namespace OLC1Proyecto1_201503608
                     Match(parentesisc);
                     Match(pycoma);
                     NodoArbol d=OPERACION();
-                    a.AddHijos(insertar);
-                    a.AddHijos(en);
-                    a.AddHijos(id);
-                    a.AddHijos(valores);
-                    a.AddHijos(c);
+                    a.AddHijos(insercion);
+                    insercion.AddHijos(insertar);
+                    insercion.AddHijos(en);
+                    insercion.AddHijos(id);
+                    insercion.AddHijos(valores);
+                    insercion.AddHijos(c);
                     a.AddHijos(d);
                     return a;
                 }
                 else if (this.tokensASintactico.ElementAt(i).lexemaval.ToLower().Equals("seleccionar"))
                 {
                     NodoArbol a = new NodoArbol("OPERACION", "", count);
+                    count++;
+                    NodoArbol SELECCION = new NodoArbol("SELECCION", "", count);
                     count++;
                     NodoArbol seleccionar = new NodoArbol("seleccionar", this.tokensASintactico.ElementAt(i).lexemaval.ToLower(), count);
                     count++;
@@ -171,17 +179,20 @@ namespace OLC1Proyecto1_201503608
                     NodoArbol e=CONDICION_SELECCION();
                     Match(pycoma);
                     NodoArbol f=OPERACION();
-                    a.AddHijos(seleccionar);
-                    a.AddHijos(c);
-                    a.AddHijos(de);
-                    a.AddHijos(d);
-                    a.AddHijos(e);
+                    a.AddHijos(SELECCION);
+                    SELECCION.AddHijos(seleccionar);
+                    SELECCION.AddHijos(c);
+                    SELECCION.AddHijos(de);
+                    SELECCION.AddHijos(d);
+                    SELECCION.AddHijos(e);
                     a.AddHijos(f);
                     return a;
                 }
                 else if (this.tokensASintactico.ElementAt(i).lexemaval.ToLower().Equals("eliminar"))
                 {
                     NodoArbol a = new NodoArbol("OPERACION", "", count);
+                    count++;
+                    NodoArbol eliminacion = new NodoArbol("ELIMINACION", "", count);
                     count++;
                     NodoArbol eliminar = new NodoArbol("eliminar", this.tokensASintactico.ElementAt(i).lexemaval.ToLower(), count);
                     count++;
@@ -195,16 +206,19 @@ namespace OLC1Proyecto1_201503608
                     NodoArbol c=CONDICIONES();
                     Match(pycoma);
                     NodoArbol d=OPERACION();
-                    a.AddHijos(eliminar);
-                    a.AddHijos(de);
-                    a.AddHijos(id);
-                    a.AddHijos(c);
+                    a.AddHijos(eliminacion);
+                    eliminacion.AddHijos(eliminar);
+                    eliminacion.AddHijos(de);
+                    eliminacion.AddHijos(id);
+                    eliminacion.AddHijos(c);
                     a.AddHijos(d);
                     return a;
                 }
                 else if (this.tokensASintactico.ElementAt(i).lexemaval.ToLower().Equals("actualizar"))
                 {
                     NodoArbol a = new NodoArbol("OPERACION", "", count);
+                    count++;
+                    NodoArbol actualizacion = new NodoArbol("ACTUALIZACION", "", count);
                     count++;
                     NodoArbol actualizar = new NodoArbol("actualizar", this.tokensASintactico.ElementAt(i).lexemaval.ToLower(), count);
                     count++;
@@ -221,11 +235,12 @@ namespace OLC1Proyecto1_201503608
                     NodoArbol d = CONDICION_SELECCION();
                     Match(pycoma);
                     NodoArbol e = OPERACION();
-                    a.AddHijos(actualizar);
-                    a.AddHijos(id);
-                    a.AddHijos(establecer);
-                    a.AddHijos(c);
-                    a.AddHijos(d);
+                    a.AddHijos(actualizacion);
+                    actualizacion.AddHijos(actualizar);
+                    actualizacion.AddHijos(id);
+                    actualizacion.AddHijos(establecer);
+                    actualizacion.AddHijos(c);
+                    actualizacion.AddHijos(d);
                     a.AddHijos(e);
                     return a;
                 }
@@ -366,9 +381,11 @@ namespace OLC1Proyecto1_201503608
                 count++;
                 Match(identificador);
                 NodoArbol c = PARAMETROS_SELECCION2();
+                NodoArbol c2 = ALIAS();
                 NodoArbol d = PARAMETROS_SELECCION();
                 a.AddHijos(id);
                 a.AddHijos(c);
+                a.AddHijos(c2);
                 a.AddHijos(d);
                 return a;
             }
@@ -381,9 +398,11 @@ namespace OLC1Proyecto1_201503608
                 count++;
                 Match(identificador);
                 NodoArbol c = PARAMETROS_SELECCION2();
+                NodoArbol c2 = ALIAS();
                 NodoArbol d = PARAMETROS_SELECCION();
                 a.AddHijos(id);
                 a.AddHijos(c);
+                a.AddHijos(c2);
                 a.AddHijos(d);
                 return a;
             }
@@ -414,6 +433,25 @@ namespace OLC1Proyecto1_201503608
                 Match(identificador);
                 a.AddHijos(id);
                 return a;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public NodoArbol ALIAS()
+        {
+            if (this.tokensASintactico.ElementAt(i).id == reservada)
+            {
+                NodoArbol alias = new NodoArbol("ALIAS", "", count);
+                NodoArbol reservadas = new NodoArbol("reservada", this.tokensASintactico.ElementAt(i).lexemaval.ToLower(), count);
+                Match(reservada);
+                NodoArbol id = new NodoArbol("id", this.tokensASintactico.ElementAt(i).lexemaval.ToLower(), count);
+                Match(identificador);
+                alias.AddHijos(reservadas);
+                alias.AddHijos(id);
+                return alias;
             }
             else
             {

@@ -19,9 +19,11 @@ namespace OLC1Proyecto1_201503608
         string archivoact = "";
         List<Token> tokens = new List<Token>();
         List<Token> tokensAsintactico = new List<Token>();
-        List<Errores> error = new List<Errores>(); 
+        List<Errores> error = new List<Errores>();
+        List<Tabla> tablas = new List<Tabla>();
         scanner_201503608 scan;
         parser_201503608 parser;
+        RecorrerArbol recorrido;
         public Form1()
         {
             InitializeComponent();
@@ -244,6 +246,9 @@ namespace OLC1Proyecto1_201503608
             parser = new parser_201503608(tokensAsintactico, error);
             parser.INICIO();
             MessageBox.Show("Analisis finalizado");
+            recorrido = new RecorrerArbol(this.tablas);
+            NodoArbol raiz = parser.getPadre();
+            recorrido.Ejecutar(raiz);
         }
 
         private void MostrarErroresToolStripMenuItem_Click(object sender, EventArgs e)
