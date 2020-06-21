@@ -8,10 +8,10 @@ namespace OLC1Proyecto1_201503608
 {
     class Tupla
     {
-        List<string> valores;
-        public Tupla()
+        public List<string> valores = new List<string>();
+        public Tupla(string valor)
         {
-            valores = new List<string>();
+            valores.Add(valor);
         }
     }
 }

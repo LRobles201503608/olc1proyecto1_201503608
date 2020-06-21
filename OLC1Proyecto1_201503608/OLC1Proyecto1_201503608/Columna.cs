@@ -8,10 +8,13 @@ namespace OLC1Proyecto1_201503608
 {
     class Columna
     {
-        string nombre { get; set; }
-        List<Tupla> tuplas { get; set; }
-        public Columna()
+        public string nombre { get; set; }
+        public string tipo { get; set; }
+        public List<Tupla> tuplas { get; set; }
+        public Columna(string nombre,string tipo)
         {
+            this.tipo = tipo;
+            this.nombre=nombre;
             tuplas = new List<Tupla>();
         }
         

@@ -318,5 +318,45 @@ namespace OLC1Proyecto1_201503608
             }
             return cuerpo;
         }
+
+        private void VerTablasToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            GenerarHTMLTablas();
+
+        }
+
+        private void GenerarHTMLTablas()
+        {
+
+            String texto = "";
+            texto += "<html>";
+            texto += "\n<head><title>TABLAS</title></head>\n";
+            texto += "<body bgcolor=\"aqua\"> \n <table border=\"2\" align=\"center\">\n";
+            foreach (Tabla tab in this.tablas)
+            {
+                texto += "<tr><td>" + tab.nombre + "</td></tr>";
+                texto += "<colgroup span="+(tab.campo.Count()-1)+"></colgroup >";                
+                foreach (Columna campos in tab.campo)
+                {
+                    texto += "<tr><td>"+campos.nombre+"</td></tr>";
+                    texto += "<tr>";
+                    foreach (Tupla datos in campos.tuplas)
+                    {
+                        
+                        for(int i = 0; i < datos.valores.Count(); i++)
+                        {
+                            texto += "<td>" + datos.valores.ElementAt(i) + "</td>";
+                        }
+                    }
+                    texto += "</tr>";
+                }
+            }
+            texto += "</table>\n</body>\n</html>";
+            string fileName = "Tablas.html";
+            StreamWriter writer = File.CreateText(fileName);
+            writer.WriteLine(texto);
+            writer.Close();
+        }
     }
 }

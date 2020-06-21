@@ -143,6 +143,7 @@
             this.verTablasToolStripMenuItem.Name = "verTablasToolStripMenuItem";
             this.verTablasToolStripMenuItem.Size = new System.Drawing.Size(276, 26);
             this.verTablasToolStripMenuItem.Text = "Ver Tablas";
+            this.verTablasToolStripMenuItem.Click += new System.EventHandler(this.VerTablasToolStripMenuItem_Click);
             // 
             // verTokensToolStripMenuItem
             // 

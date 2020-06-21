@@ -136,7 +136,9 @@ namespace OLC1Proyecto1_201503608
                             }
                             
                             if (i + 1 == cadena.Length || cadena.ElementAt(i+1)==32|| cadena.ElementAt(i + 1) == 40|| cadena.ElementAt(i + 1) == 44|| cadena.ElementAt(i + 1) == 34
-                                || cadena.ElementAt(i + 1) == 10 || cadena.ElementAt(i + 1) == 13|| cadena.ElementAt(i + 1) == 41)
+                                || cadena.ElementAt(i + 1) == 10 || cadena.ElementAt(i + 1) == 13|| cadena.ElementAt(i + 1) == 41|| cadena.ElementAt(i + 1) == 59
+                                || cadena.ElementAt(i + 1) == 60 || cadena.ElementAt(i + 1) == 61 || cadena.ElementAt(i + 1) == 62 || cadena.ElementAt(i + 1) == 33
+                                || caracter == 32 )
                             {
                                 if (cadconcat.ToLower().Equals("tabla")|| cadconcat.ToLower().Equals("insertar")|| cadconcat.ToLower().Equals("eliminar")
                                     || cadconcat.ToLower().Equals("modificar"))
@@ -227,10 +229,13 @@ namespace OLC1Proyecto1_201503608
                             {
                                 cadconcat += caracteractual;
                                 estado = 18;
-                            }else if (i+1==cadena.Length||cadena.ElementAt(i+1)==44|| cadena.ElementAt(i + 1) == 41|| cadena.ElementAt(i + 1) == 32
-                                || caracter==44||caracter==32||caracter==41)
+                            }
+                            if (i+1==cadena.Length||cadena.ElementAt(i+1)==44|| cadena.ElementAt(i + 1) == 41|| cadena.ElementAt(i + 1) == 32
+                                || caracter==44||caracter==32||caracter==41 || cadena.ElementAt(i + 1) == 59
+                                || cadena.ElementAt(i + 1) == 60 || cadena.ElementAt(i + 1) == 61 || cadena.ElementAt(i + 1) == 62 || cadena.ElementAt(i + 1) == 33)
                             {
-                                if (caracter == 44 || caracter == 32 || caracter == 41)
+                                if (caracter == 44 || caracter == 32 || caracter == 41 || caracter == 59|| caracter == 60 
+                                    || caracter == 61 || caracter == 62 || caracter == 33)
                                 {
                                     i--;
                                 }

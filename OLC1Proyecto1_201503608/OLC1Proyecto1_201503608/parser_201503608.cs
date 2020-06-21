@@ -203,7 +203,7 @@ namespace OLC1Proyecto1_201503608
                     NodoArbol id = new NodoArbol("id", this.tokensASintactico.ElementAt(i).lexemaval.ToLower(), count);
                     count++;
                     Match(identificador);
-                    NodoArbol c=CONDICIONES();
+                    NodoArbol c= CONDICION_ELIMINACION();
                     Match(pycoma);
                     NodoArbol d=OPERACION();
                     a.AddHijos(eliminacion);
@@ -490,6 +490,26 @@ namespace OLC1Proyecto1_201503608
                 return null;
             }
         }
+
+        public NodoArbol CONDICION_ELIMINACION()
+        {
+            if (this.tokensASintactico.ElementAt(i).id == reservada)
+            {
+                NodoArbol a = new NodoArbol("CONDICION_ELIMINACION", "", count);
+                count++;
+                NodoArbol donde = new NodoArbol("donde", this.tokensASintactico.ElementAt(i).lexemaval.ToLower(), count);
+                count++;
+                Match(reservada);
+                NodoArbol c = CONDICIONES();
+                a.AddHijos(donde);
+                a.AddHijos(c);
+                return a;
+            }
+            else
+            {
+                return null;
+            }
+        }
         public NodoArbol CONDICION_SELECCION()
         {
             if (this.tokensASintactico.ElementAt(i).id == reservada)
@@ -511,41 +531,48 @@ namespace OLC1Proyecto1_201503608
         }
         public NodoArbol CONDICIONES()
         {
-            if (this.tokensASintactico.ElementAt(i).id == identificador)
+            if (i<this.tokensASintactico.Count())
             {
-                NodoArbol a = new NodoArbol("CONDICIONES", "", count);
-                count++;
-                NodoArbol id = new NodoArbol("id", this.tokensASintactico.ElementAt(i).lexemaval.ToLower(), count);
-                count++;
-                Match(identificador);
-                NodoArbol c = CONDICIONALES();
-                NodoArbol d = EXPRESION();
-                NodoArbol e = CONDICIONES();
-                a.AddHijos(id);
-                a.AddHijos(c);
-                a.AddHijos(d);
-                a.AddHijos(e);
-                return a;
-            }
-            else if (this.tokensASintactico.ElementAt(i).id == reservada)
-            {
-                NodoArbol a = new NodoArbol("CONDICIONES", "", count);
-                count++;
-                NodoArbol reservadas = new NodoArbol("reservada", this.tokensASintactico.ElementAt(i).lexemaval.ToLower(), count);
-                count++;
-                Match(reservada);
-                NodoArbol id = new NodoArbol("id", this.tokensASintactico.ElementAt(i).lexemaval.ToLower(), count);
-                count++;
-                Match(identificador);
-                NodoArbol c = CONDICIONALES();
-                NodoArbol d = EXPRESION();
-                NodoArbol e = CONDICIONES();
-                a.AddHijos(reservadas);
-                a.AddHijos(id);
-                a.AddHijos(c);
-                a.AddHijos(d);
-                a.AddHijos(e);
-                return a;
+                if (this.tokensASintactico.ElementAt(i).id == identificador)
+                {
+                    NodoArbol a = new NodoArbol("CONDICIONES", "", count);
+                    count++;
+                    NodoArbol id = new NodoArbol("id", this.tokensASintactico.ElementAt(i).lexemaval.ToLower(), count);
+                    count++;
+                    Match(identificador);
+                    NodoArbol c = CONDICIONALES();
+                    NodoArbol d = EXPRESION();
+                    NodoArbol e = CONDICIONES();
+                    a.AddHijos(id);
+                    a.AddHijos(c);
+                    a.AddHijos(d);
+                    a.AddHijos(e);
+                    return a;
+                }
+                else if (this.tokensASintactico.ElementAt(i).id == reservada)
+                {
+                    NodoArbol a = new NodoArbol("CONDICIONES", "", count);
+                    count++;
+                    NodoArbol reservadas = new NodoArbol("reservada", this.tokensASintactico.ElementAt(i).lexemaval.ToLower(), count);
+                    count++;
+                    Match(reservada);
+                    NodoArbol id = new NodoArbol("id", this.tokensASintactico.ElementAt(i).lexemaval.ToLower(), count);
+                    count++;
+                    Match(identificador);
+                    NodoArbol c = CONDICIONALES();
+                    NodoArbol d = EXPRESION();
+                    NodoArbol e = CONDICIONES();
+                    a.AddHijos(reservadas);
+                    a.AddHijos(id);
+                    a.AddHijos(c);
+                    a.AddHijos(d);
+                    a.AddHijos(e);
+                    return a;
+                }
+                else
+                {
+                    return null;
+                }
             }
             else
             {
