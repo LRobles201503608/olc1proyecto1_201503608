@@ -442,12 +442,15 @@ namespace OLC1Proyecto1_201503608
 
         public NodoArbol ALIAS()
         {
-            if (this.tokensASintactico.ElementAt(i).id == reservada)
+            if (this.tokensASintactico.ElementAt(i).id == reservada && this.tokensASintactico.ElementAt(i).lexemaval.ToLower().Equals("como"))
             {
                 NodoArbol alias = new NodoArbol("ALIAS", "", count);
+                count++;
                 NodoArbol reservadas = new NodoArbol("reservada", this.tokensASintactico.ElementAt(i).lexemaval.ToLower(), count);
+                count++;
                 Match(reservada);
                 NodoArbol id = new NodoArbol("id", this.tokensASintactico.ElementAt(i).lexemaval.ToLower(), count);
+                count++;
                 Match(identificador);
                 alias.AddHijos(reservadas);
                 alias.AddHijos(id);

@@ -141,7 +141,7 @@ namespace OLC1Proyecto1_201503608
                                 || caracter == 32 )
                             {
                                 if (cadconcat.ToLower().Equals("tabla")|| cadconcat.ToLower().Equals("insertar")|| cadconcat.ToLower().Equals("eliminar")
-                                    || cadconcat.ToLower().Equals("modificar"))
+                                    || cadconcat.ToLower().Equals("actualizar"))
                                 {
                                     tokens.Add(new Token(cadconcat, 1, "Reservada", linea, columna));
                                     tokensASintactico.Add(new Token(cadconcat, 1, "Reservada", linea, columna));
