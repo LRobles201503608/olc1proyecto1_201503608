@@ -2647,7 +2647,25 @@ namespace OLC1Proyecto1_201503608
                 ltablas.Clear();
             }else if (raiz.getHijos().Count() == 5 && raiz.getHijos().ElementAt(4) != null)//con condiciones
             {
-
+                PARAMETROS_SELECCION(raiz.getHijos().ElementAt(1));
+                LISTA_TABLAS(raiz.getHijos().ElementAt(3));
+                foreach (Tabla tab in tablas)
+                {
+                    foreach (string id in ltablas)
+                    {
+                        if (tab.nombre.Equals(id))
+                        {
+                            this.CONDICION_SELECCION(raiz.getHijos().ElementAt(4), tab);
+                        }
+                    }
+                }
+                posiciones = posiciones.OrderBy(v => v).ToList();
+                GENERAR_CONDICIONAL();
+                parametros.Clear();
+                ltablas.Clear();
+                posiA.Clear();
+                posiB.Clear();
+                posiciones.Clear();
             }
         }
 
@@ -2696,6 +2714,8 @@ namespace OLC1Proyecto1_201503608
 
             }
         }
+
+        
         public void LISTA_TABLAS(NodoArbol raiz)
         {
             if (raiz.getHijos().Count() == 2 && raiz.getHijos().ElementAt(1) == null)
@@ -2709,6 +2729,46 @@ namespace OLC1Proyecto1_201503608
             }
         }
 
+        public void GENERAR_CONDICIONAL()
+        {
+            String texto = "";
+            texto += "<html>";
+            texto += "\n<head><title>CONSULTA No." + consulta + "</title></head>\n";
+            texto += "<body bgcolor=\"aqua\"> \n <table border=\"2\" align=\"center\">\n";
+            foreach (Tabla tab in tablas)
+            {
+                foreach (string tabact in ltablas)
+                {
+                    if (tab.nombre.Equals(tabact))
+                    {
+                        texto += "<tr><td>" + tab.nombre + "</td></tr>";
+                        texto += "<colgroup span=" + (tab.campo.Count() - 1) + "></colgroup >";
+                        foreach (Columna campos in tab.campo)
+                        {
+                            texto += "<tr><td>" + campos.nombre + "</td></tr>";
+                            texto += "<tr>";
+                            for (int i = campos.tuplas.Count() - 1; i >= 0; i--)
+                            {
+                                try
+                                {
+                                    texto += "<td>" + campos.tuplas.ElementAt(posiciones.ElementAt(i)).valores.ElementAt(0) + "</td>";
+                                }
+                                catch (Exception ex)
+                                {
+
+                                }
+                            }
+                            texto += "</tr>";
+                        }
+                    }
+                }
+            }
+            texto += "</table>\n</body>\n</html>";
+            string fileName = "consulta" + consulta + ".html";
+            StreamWriter writer = File.CreateText(fileName);
+            writer.WriteLine(texto);
+            writer.Close();
+        }
         public void GENERAR_TODOS()
         {
             String texto = "";
