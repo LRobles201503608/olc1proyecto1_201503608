@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -2768,6 +2769,7 @@ namespace OLC1Proyecto1_201503608
             StreamWriter writer = File.CreateText(fileName);
             writer.WriteLine(texto);
             writer.Close();
+            Process.Start(@"" + "consulta" + consulta + ".html");
         }
         public void GENERAR_TODOS()
         {
@@ -2805,6 +2807,7 @@ namespace OLC1Proyecto1_201503608
             StreamWriter writer = File.CreateText(fileName);
             writer.WriteLine(texto);
             writer.Close();
+            Process.Start(@"" + "consulta" + consulta + ".html");
         }
         public void GENERAR_ESPECIFICOS()
         {
@@ -2865,6 +2868,7 @@ namespace OLC1Proyecto1_201503608
             StreamWriter writer = File.CreateText(fileName);
             writer.WriteLine(texto);
             writer.Close();
+            Process.Start(@"" + "consulta" + consulta + ".html");
         }
     }
 }

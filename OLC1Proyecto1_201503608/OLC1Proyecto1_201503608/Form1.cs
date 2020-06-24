@@ -241,6 +241,9 @@ namespace OLC1Proyecto1_201503608
 
         private void EjecutarToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            tablas = new List<Tabla>();
+            tokens = new List<Token>();
+            tokensAsintactico = new List<Token>();
             scan = new scanner_201503608(richTextBox1.Text,tokens,tokensAsintactico,error);
             scan.AnalisisLexico(richTextBox1.Text);
             parser = new parser_201503608(tokensAsintactico, error);
@@ -248,7 +251,14 @@ namespace OLC1Proyecto1_201503608
             MessageBox.Show("Analisis finalizado");
             recorrido = new RecorrerArbol(this.tablas);
             NodoArbol raiz = parser.getPadre();
-            recorrido.Ejecutar(raiz);
+            if (error.Count()==0)
+            {
+                recorrido.Ejecutar(raiz);
+            }
+            else
+            {
+                MessageBox.Show("EXISTE ALGUN ERROR, CORRIJA EL ARCHIVO PARA PODER REALIZAR EJECUCION");
+            }
         }
 
         private void MostrarErroresToolStripMenuItem_Click(object sender, EventArgs e)
@@ -357,6 +367,65 @@ namespace OLC1Proyecto1_201503608
             StreamWriter writer = File.CreateText(fileName);
             writer.WriteLine(texto);
             writer.Close();
+        }
+
+        private void CargarTablasToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                OpenFileDialog open = new OpenFileDialog();
+                open.Filter = "Archivo SQLE (*.sqle)|*.sqle|Archivo JLRM (*.jlrm) |*.jlrm|All files (*.*)|*.*";
+                open.Title = "Abrir Archivos";
+                //  abrir.FileName = "Archivo TXT";
+                var resultado = open.ShowDialog();//guarda resultado de clic en variable resultado
+                if (resultado == DialogResult.OK)//si hace click en abrir
+                {
+                    StreamReader leer = new StreamReader(open.FileName);
+                    RichTextBox caja = richTextBox1;
+
+                    Font f = new Font("Arial", 10, FontStyle.Regular);
+                    caja.Font = f;
+                    caja.Text = leer.ReadToEnd();
+                    archivoact = open.FileName;
+                    leer.Close();
+                    obtenerLineasColumnas();
+                    //MessageBox.Show(archivoact);
+                }
+
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("No existe ninguna pestaña");
+            }
+        }
+
+        private void EjecutarSeleccionadoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                tokens = new List<Token>();
+                tokensAsintactico = new List<Token>();
+                string selected = richTextBox1.SelectedText;
+                scan = new scanner_201503608(selected, tokens, tokensAsintactico, error);
+                scan.AnalisisLexico(richTextBox1.SelectedText);
+                parser = new parser_201503608(tokensAsintactico, error);
+                parser.INICIO();
+                MessageBox.Show("Analisis finalizado");
+                recorrido = new RecorrerArbol(this.tablas);
+                NodoArbol raiz = parser.getPadre();
+                if (error.Count() == 0)
+                {
+                    recorrido.Ejecutar(raiz);
+                }
+                else
+                {
+                    MessageBox.Show("EXISTE ALGUN ERROR, CORRIJA EL ARCHIVO PARA PODER REALIZAR EJECUCION");
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
     }
 }
