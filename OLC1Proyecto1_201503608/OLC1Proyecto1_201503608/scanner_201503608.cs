@@ -13,12 +13,14 @@ namespace OLC1Proyecto1_201503608
         private List<Token> tokens;
         private List<Token> tokensASintactico;
         List<Errores> error;
-        public scanner_201503608(string cadena, List<Token>tokens, List<Token> tokensASintactico, List<Errores> error)
+        RichTextBox r1;
+        public scanner_201503608(string cadena, List<Token>tokens, List<Token> tokensASintactico, List<Errores> error, RichTextBox r1)
         {
             this.cadena = cadena;
             this.tokens = tokens;
             this.tokensASintactico = tokensASintactico;
             this.error = error;
+            this.r1=r1;
         }
     public void AnalisisLexico(string cadena)
         {

@@ -82,6 +82,7 @@ namespace OLC1Proyecto1_201503608
             StreamWriter writer = File.CreateText(fileName);
             writer.WriteLine(texto);
             writer.Close();
+            Process.Start(@"" + "Tokens.html");
         }
         public void GenerarHTMLErrores()
         {
@@ -117,16 +118,16 @@ namespace OLC1Proyecto1_201503608
             StreamWriter writer = File.CreateText(fileName);
             writer.WriteLine(texto);
             writer.Close();
+            Process.Start(@"" + "Errores.html");
         }
         private void AcercaDeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(" SQLE version 0.1.0 \n JUAN LUIS ROBLES MOLINA \n 201503608");
+            MessageBox.Show(" SQLE version 1.0.0 \n JUAN LUIS ROBLES MOLINA \n 201503608");
         }
 
         private void NuevoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             richTextBox1.Text = "";
-            richTextBox2.Text = "";
         }
 
         private void AbrirToolStripMenuItem_Click(object sender, EventArgs e)
@@ -244,7 +245,7 @@ namespace OLC1Proyecto1_201503608
             tablas = new List<Tabla>();
             tokens = new List<Token>();
             tokensAsintactico = new List<Token>();
-            scan = new scanner_201503608(richTextBox1.Text,tokens,tokensAsintactico,error);
+            scan = new scanner_201503608(richTextBox1.Text,tokens,tokensAsintactico,error,richTextBox1);
             scan.AnalisisLexico(richTextBox1.Text);
             parser = new parser_201503608(tokensAsintactico, error);
             parser.INICIO();
@@ -367,6 +368,7 @@ namespace OLC1Proyecto1_201503608
             StreamWriter writer = File.CreateText(fileName);
             writer.WriteLine(texto);
             writer.Close();
+            Process.Start(@"" + "Tablas.html");
         }
 
         private void CargarTablasToolStripMenuItem_Click(object sender, EventArgs e)
@@ -406,7 +408,7 @@ namespace OLC1Proyecto1_201503608
                 tokens = new List<Token>();
                 tokensAsintactico = new List<Token>();
                 string selected = richTextBox1.SelectedText;
-                scan = new scanner_201503608(selected, tokens, tokensAsintactico, error);
+                scan = new scanner_201503608(selected, tokens, tokensAsintactico, error,richTextBox1);
                 scan.AnalisisLexico(richTextBox1.SelectedText);
                 parser = new parser_201503608(tokensAsintactico, error);
                 parser.INICIO();
@@ -427,5 +429,16 @@ namespace OLC1Proyecto1_201503608
 
             }
         }
+
+        private void MostrarManualUsuarioToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Process.Start(@"" + "Manual de usuario.pdf");
+        }
+
+        private void MostrarManualTecnicoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Process.Start(@"" + "Manual Tecnico.pdf");
+        }
+
     }
 }
